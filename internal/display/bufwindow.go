@@ -555,6 +555,17 @@ func (w *BufWindow) displayBuffer() {
 					}
 				}
 
+				// naive; highlights all spaces instead of just leading spaces
+				// also no config option behind it right now
+				// i'm also not sure what the r != ' ' does above, so i removed it
+				if r == ' ' {
+					r = '.'
+					if s, ok := config.Colorscheme["indent-char"]; ok {
+						fg, _, _ := s.Decompose()
+						style = style.Foreground(fg)
+					}
+				}
+
 				if s, ok := config.Colorscheme["color-column"]; ok {
 					if colorcolumn != 0 && vloc.X-w.gutterOffset == colorcolumn {
 						fg, _, _ := s.Decompose()
